@@ -2,9 +2,14 @@ import streamlit as st
 import re
 import requests
 import spacy
+from spacy.cli import download
 
-# Charger le modèle spaCy pour la simplification syntaxique
-nlp = spacy.load('fr_core_news_sm')
+# Télécharger le modèle français si nécessaire
+try:
+    nlp = spacy.load("fr_core_news_sm")
+except OSError:
+    download("fr_core_news_sm")
+    nlp = spacy.load("fr_core_news_sm")
 
 # Fonction pour récupérer des synonymes simples via l'API Datamuse
 def get_falc_synonym(word):
